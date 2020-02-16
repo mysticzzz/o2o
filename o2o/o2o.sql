@@ -9,7 +9,7 @@ CREATE TABLE `tb_area` (
   UNIQUE KEY `UK_AREA` (`area_name`)
 )ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*
-MYISAM和INNODB的区别
+MYISAM和INNODB的区别`o`o2o`2o``tb_person_info`
 
 MYISAM是基于表`o2o`级锁的，读的性能很高，但是不能一个表里并行更新,读的多建议使用
 INNODB是行级锁，可以在一个表里并行更新
@@ -28,16 +28,7 @@ CREATE TABLE `tb_person_info`(
   `last_edit_time` DATETIME DEFAULT NULL,
   PRIMARY KEY(`user_id`)
 )ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
-USE o2o;
-CREATE TABLE `tb_product_category`(
-  `product_category_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `product_category_name` VARCHAR(100) NOT NULL,
-  `priority` INT(2) DEFAULT '0',
-  `create_time` DATETIME DEFAULT NULL,
-  `shop_id` INT(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`product_category_id`),
-  CONSTRAINT `fk_procate_shop` FOREIGN KEY (`shop_id`) REFERENCES `tb_shop`(`shop_id`)
-) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 USE o2o;
 CREATE TABLE `tb_wechat_auth`(
   `wechat_auth_id` INT(10) NOT NULL AUTO_INCREMENT,
@@ -91,14 +82,75 @@ CREATE TABLE `tb_shop_category`(
   
 )ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `tb_shop`(
+  `shop_id` INT(10) NOT NULL AUTO_INCREMENT,
+  `owner_id` INT(10) NOT NULL COMMENT'店铺创建人',
+  `area_id` INT(5) DEFAULT NULL,
+  `shop_category_id` INT(11) DEFAULT NULL,
+  `shop_name` VARCHAR(256) NOT NULL,
+  `shop_desc` VARCHAR(1024) DEFAULT NULL,
+  `shop_addr` VARCHAR(200) DEFAULT NULL,
+  `phone` VARCHAR(128) DEFAULT NULL,
+  `shop_img` VARCHAR(1024) DEFAULT NULL,
+  `priority` INT(3) DEFAULT '0',
+  `create_time` DATETIME DEFAULT NULL,
+  `last_edit_time` DATETIME DEFAULT NULL,
+  `enable_stauts` INT(2) NOT NULL DEFAULT '0',
+  `advice` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY(`shop_id`),
+  CONSTRAINT `fk_shop_area` FOREIGN KEY(`area_id`) REFERENCES `tb_area`(`area_id`),
+  CONSTRAINT `fk_shop_profile` FOREIGN KEY(`owner_id`) REFERENCES `tb_person_info`(`user_id`),
+  CONSTRAINT `fk_shop_shopcate` FOREIGN KEY(`shop_category_id`) REFERENCES `tb_shop_category`(`shop_category_id`) 
+)ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+CREATE TABLE `tb_product_category`(
+  `product_category_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `product_category_name` VARCHAR(100) NOT NULL,
+  `priority` INT(2) DEFAULT '0',
+  `create_time` DATETIME DEFAULT NULL,
+  `shop_id` INT(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`product_category_id`),
+  CONSTRAINT `fk_procate_shop` FOREIGN KEY (`shop_id`) REFERENCES `tb_shop`(`shop_id`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_product`(
+  `product_id` INT(100) NOT NULL AUTO_INCREMENT,
+  `product_name` VARCHAR(100) NOT NULL,
+  `product_desc` VARCHAR(2000) DEFAULT NULL,
+  `img_addr` VARCHAR(2000) DEFAULT '',
+  `normal_price` VARCHAR(100) DEFAULT NULL,
+  `promotion_price` VARCHAR(100) DEFAULT NULL,
+  `priority` INT(2) NOT NULL DEFAULT '0',
+  `create_time` DATETIME DEFAULT NULL,
+  `last_edit_time` DATETIME DEFAULT NULL,
+  `enable_stauts` INT(2) NOT NULL DEFAULT '0',
+  `product_category_id` INT(11) DEFAULT NULL,
+  `shop_id` INT(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY(`product_id`),
+  CONSTRAINT `fk_product_procate` FOREIGN KEY(`product_category_id`) REFERENCES
+  `tb_product_category`(`product_category_id`),
+  CONSTRAINT `fk_product_shop` FOREIGN KEY (`shop_id`) REFERENCES `tb_shop`(`shop_id`)  
+  
+)ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tb_product_img`(
+  `product_img_id` INT(20) NOT NULL AUTO_INCREMENT,
+  `img_addr` VARCHAR(2000) NOT NULL,
+  `img_desc` VARCHAR(2000) DEFAULT NULL,
+  `priority` INT(2) DEFAULT '0',
+  `create_time` DATETIME DEFAULT NULL,
+  `product_id` INT(20) DEFAULT NULL,
+  PRIMARY KEY(`product_img_id`),
+  CONSTRAINT `fk_proimg_product` FOREIGN KEY(`product_id`) REFERENCES `tb_product`
+  (`product_id`)    
+)ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 
-
-
-
-
-
+		SELECT area_id, area_name,
+		priority, create_time, last_edit_time
+		FROM tb_area
+		ORDER BY priority DESC
 
 
 
