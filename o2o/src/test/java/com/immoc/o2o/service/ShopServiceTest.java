@@ -25,7 +25,7 @@ public class ShopServiceTest extends BaseTest{
 	//@Autowired是告诉spring，在初始化这个SHopServiceTest的时候
 	//就将ShopService的实现类动态的注入到接口里面去
 	@Autowired
-	private ShopService shopService;//接口
+	private ShopService shopService;//接口。。
 	
 	@Test
 	public void testAddShop() throws FileNotFoundException {
