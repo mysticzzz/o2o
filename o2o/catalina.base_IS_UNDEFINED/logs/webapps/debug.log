@@ -1,0 +1,8 @@
+2020-03-10 22:18:40.184[main]DEBUGcom.imooc.o2o.dao.ShopDao.insertShop-==>  Preparing: INSERT INTO tb_shop(owner_id, area_id, shop_category_id, shop_name, shop_desc, shop_addr, phone, shop_img, priority, create_time, last_edit_time, enable_status, advice) VALUES (?,?,?,?, ?,?,?,?,?, ?,?, ?,?) 
+2020-03-10 22:18:40.211[main]DEBUGcom.imooc.o2o.dao.ShopDao.insertShop-==> Parameters: 1(Long), 2(Integer), 1(Long), 测试的店铺3(String), test3(String), test3(String), test3(String), null, null, 2020-03-10 22:18:40.162(Timestamp), 2020-03-10 22:18:40.162(Timestamp), 0(Integer), 审核中(String)
+2020-03-10 22:18:40.223[main]DEBUGcom.imooc.o2o.dao.ShopDao.insertShop-<==    Updates: 1
+2020-03-10 22:18:40.231[main]DEBUGcom.imooc.o2o.util.ImageUtil-current relativeAddr is:upload\item\shop\9\2020031022184084854.jpg
+2020-03-10 22:18:40.231[main]DEBUGcom.imooc.o2o.util.ImageUtil-current complete addr is:D:\picture\upload\item\shop\9\2020031022184084854.jpg
+2020-03-10 22:18:40.410[main]DEBUGcom.imooc.o2o.dao.ShopDao.updateShop-==>  Preparing: update tb_shop SET shop_name=?, shop_desc=?, shop_addr=?, phone=?, shop_img=?, last_edit_time=?, enable_status=?, advice=?, area_id=?, shop_category_id=? where shop_id=? 
+2020-03-10 22:18:40.411[main]DEBUGcom.imooc.o2o.dao.ShopDao.updateShop-==> Parameters: 测试的店铺3(String), test3(String), test3(String), test3(String), upload\item\shop\9\2020031022184084854.jpg(String), 2020-03-10 22:18:40.162(Timestamp), 0(Integer), 审核中(String), 2(Integer), 1(Long), 9(Long)
+2020-03-10 22:18:40.411[main]DEBUGcom.imooc.o2o.dao.ShopDao.updateShop-<==    Updates: 1
