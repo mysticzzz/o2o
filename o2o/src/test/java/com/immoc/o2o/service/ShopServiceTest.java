@@ -29,7 +29,7 @@ public class ShopServiceTest extends BaseTest{
 	
 	@Test
 	public void testAddShop() throws FileNotFoundException {
-		//初始化实例
+		//初始化实例。
 		Shop shop = new Shop();
 		PersonInfo owner = new PersonInfo();
 		Area area = new Area();
