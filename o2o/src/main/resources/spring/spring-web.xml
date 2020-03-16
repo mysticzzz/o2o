@@ -16,13 +16,24 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:default-servlet-handler />
 
-	<!-- 3.定义视图解析器 -->
+	<!-- 
+	3.定义视图解析器 ，作用是：
+	将请求加头加尾，然后将它解析成我们想要的页面
+	web-inf只能通过后台的转发去访问的到里面
+	-->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/html/"></property>
 		<property name="suffix" value=".html"></property>
 	</bean>
-	
+	<!-- 文件上传解析器 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
+		<!-- 1024 * 1024 * 20 = 20M -->
+		<property name="maxUploadSize" value="20971520"></property>
+		<property name="maxInMemorySize" value="20971520"></property>
+	</bean>
 
 	<!-- 4.扫描web相关的bean -->
 	<context:component-scan base-package="com.imooc.o2o.web" />

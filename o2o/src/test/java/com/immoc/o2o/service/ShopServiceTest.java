@@ -8,6 +8,10 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
 
+import javax.sound.midi.Soundbank;
+
+import org.eclipse.jdt.internal.compiler.ast.IPolyExpression;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +22,7 @@ import com.imooc.o2o.entity.PersonInfo;
 import com.imooc.o2o.entity.Shop;
 import com.imooc.o2o.entity.ShopCategory;
 import com.imooc.o2o.enums.ShopStateEnum;
+import com.imooc.o2o.exceptions.ShopOperationException;
 import com.imooc.o2o.service.ShopService;
 
 public class ShopServiceTest extends BaseTest{
@@ -26,8 +31,31 @@ public class ShopServiceTest extends BaseTest{
 	//就将ShopService的实现类动态的注入到接口里面去
 	@Autowired
 	private ShopService shopService;//接口。。
+	@Test
+	public void testGetShopList() {
+		Shop shopCondition=new Shop();
+		ShopCategory sc=new ShopCategory();
+		sc.setShopCategoryId(1L);
+		shopCondition.setShopCategory(sc);
+		ShopExecution se=shopService.getShopList(shopCondition, 1, 2);
+		System.out.println("店铺列表数为：   "+se.getShopList().size());
+		System.out.println("店铺列总数为：   "+se.getCount());
+	}
+	
 	
 	@Test
+	@Ignore
+	public void testModifyShop() throws ShopOperationException,FileNotFoundException{
+		Shop shop=new Shop();
+		shop.setShopId(1L);
+		shop.setShopName("修改后的店铺名称");
+		File shopImg=new File("D:/picture/huangye.jpg");
+		InputStream is=new FileInputStream(shopImg);//获取文件流
+		ShopExecution shopExecution=shopService.modifyShop(shop, is, "huangye.jpg");
+		System.out.println("新的图片地址： "+shopExecution.getShop().getShopImg());
+	}
+	@Test
+	@Ignore
 	public void testAddShop() throws FileNotFoundException {
 		//初始化实例。
 		Shop shop = new Shop();
@@ -47,8 +75,9 @@ public class ShopServiceTest extends BaseTest{
 		shop.setCreateTime(new Date());
 		shop.setEnableStatus(ShopStateEnum.CHECK.getState());
 		shop.setAdvice("审核中");
-		//初始化一个文件
-		File shopImg=new File("D:/picture/nier.jpg");
+		
+		//修改shop中的图片
+		File shopImg=new File("D:/picture/nier.jpg");	//初始化一个文件流
 		//将File类型转换为InputStream
 		InputStream is=new FileInputStream(shopImg);
 		//开始作添加
